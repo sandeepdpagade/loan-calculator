@@ -23,38 +23,45 @@ const LoanCalculatorPage = () => {
     `${(value * (exchangeRates[currency] || 1)).toFixed(2)} ${currency}`;
 
   return (
-    <Box p={4}>
-      <Typography variant="h4" gutterBottom>
-        Loan Calculator Dashboard
-      </Typography>
+    <>
+      <div className="container mx-auto max-w-6xl">
+        <Box p={4}>
+          <Typography variant="h4" gutterBottom>
+            Loan Calculator Dashboard
+          </Typography>
 
-      <LoanForm
-        amount={amount}
-        rate={rate}
-        term={term}
-        setAmount={setAmount}
-        setRate={setRate}
-        setTerm={setTerm}
-        onCalculate={handleCalculate}
-      />
+          <LoanForm
+            amount={amount}
+            rate={rate}
+            term={term}
+            setAmount={setAmount}
+            setRate={setRate}
+            setTerm={setTerm}
+            onCalculate={handleCalculate}
+          />
 
-      {monthlyEMI && (
-        <>
-          <EMIResult monthlyEMI={monthlyEMI} formatCurrency={formatCurrency} />
-          <CurrencySelector
-            currency={currency}
-            setCurrency={setCurrency}
-            exchangeRates={exchangeRates}
-            onReset={reset}
-          />
-          <AmortizationTable
-            schedule={schedule}
-            formatCurrency={formatCurrency}
-            currency={currency}
-          />
-        </>
-      )}
-    </Box>
+          {monthlyEMI && (
+            <>
+              <EMIResult
+                monthlyEMI={monthlyEMI}
+                formatCurrency={formatCurrency}
+              />
+              <CurrencySelector
+                currency={currency}
+                setCurrency={setCurrency}
+                exchangeRates={exchangeRates}
+                onReset={reset}
+              />
+              <AmortizationTable
+                schedule={schedule}
+                formatCurrency={formatCurrency}
+                currency={currency}
+              />
+            </>
+          )}
+        </Box>
+      </div>
+    </>
   );
 };
 
