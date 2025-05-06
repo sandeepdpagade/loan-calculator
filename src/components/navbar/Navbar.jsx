@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   const linkClass = (path) =>
-    `cursor-pointer px-3 py-1 rounded transition ${
+    `cursor-pointer px-4 py-2 rounded transition ${
       currentPath === path ? "bg-[#ffffff22]" : "hover:bg-[#ffffff22]"
     }`;
 
@@ -27,58 +27,62 @@ const Navbar = () => {
     <nav
       className={`${
         theme.palette.mode === "dark" ? "bg-gray-900" : "bg-[#1976d2]"
-      } text-white px-6 py-4`}
+      } text-white px-4 py-4 relative`}
     >
       <div className="flex justify-between items-center">
-        {/* Mobile Hamburger */}
-        <button
-          className="ml-4 md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
+        {/* Hamburger */}
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <div className="flex items-center justify-between gap-4 w-full">
-          <div className="text-lg ">Loan Calculator</div>
-          <div>
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8 text-sm">
-              <span
-                onClick={() => handleNavClick("/")}
-                className={linkClass("/")}
-              >
-                HOME
-              </span>
-              <span
-                onClick={() => handleNavClick("/exchange")}
-                className={linkClass("/exchange")}
-              >
-                EXCHANGE RATES (LIVE)
-              </span>
-              <span
-                onClick={() => handleNavClick("/about")}
-                className={linkClass("/about")}
-              >
-                ABOUT
-              </span>
-              <span
-                onClick={() => handleNavClick("/error")}
-                className={linkClass("/error")}
-              >
-                ERROR PAGE
-              </span>
-            </div>
+
+        <div className="text-lg ">Loan Calculator</div>
+        <div className="flex items-center gap-4">
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-6 text-sm">
+            <span
+              onClick={() => handleNavClick("/")}
+              className={linkClass("/")}
+            >
+              HOME
+            </span>
+            <span
+              onClick={() => handleNavClick("/exchange")}
+              className={linkClass("/exchange")}
+            >
+              EXCHANGE RATES (LIVE)
+            </span>
+            <span
+              onClick={() => handleNavClick("/about")}
+              className={linkClass("/about")}
+            >
+              ABOUT
+            </span>
+            <span
+              onClick={() => handleNavClick("/error")}
+              className={linkClass("/error")}
+            >
+              ERROR PAGE
+            </span>
           </div>
+
+          {/* Theme Switch */}
+          <Switch onClick={toggleTheme} />
         </div>
-        {/* Toggle Switch (MUI Theme-based) */}
-        <Switch
-          onClick={toggleTheme}
-          className="ml-4 w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 "
-        />
       </div>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="mt-4 flex flex-col gap-4 md:hidden">
+      {/* Sliding Mobile Menu */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-white text-black z-50 transform transition-transform duration-300 ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:hidden`}
+      >
+        <div className="flex justify-between items-center px-4 py-4 border-b border-white/20">
+          <div className="text-lg">Menu</div>
+          <button onClick={() => setMenuOpen(false)}>
+            <X size={24} />
+          </button>
+        </div>
+        <div className="flex flex-col px-4 gap-4 mt-4 text-sm">
           <span onClick={() => handleNavClick("/")} className={linkClass("/")}>
             HOME
           </span>
@@ -101,6 +105,14 @@ const Navbar = () => {
             ERROR PAGE
           </span>
         </div>
+      </div>
+
+      {/* Optional: Background overlay */}
+      {menuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setMenuOpen(false)}
+        />
       )}
     </nav>
   );
